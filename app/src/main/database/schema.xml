@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dbSchema xmlns='https://github.com/jeffdcamp/dbtools-gen'
+          xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+          xsi:schemaLocation='https://github.com/jeffdcamp/dbtools-gen dbschema.xsd'>
+    <database name="main" fieldsDefaultNotNull="true">
+        <table name="SimpleAddressItem">
+            <field name="id" jdbcDataType="BIGINT" increment="true" primaryKey="true"/>
+            <field name="name" jdbcDataType="VARCHAR"/>
+            <field name="address" jdbcDataType="VARCHAR"/>
+            <field name="city" jdbcDataType="VARCHAR"/>
+            <field name="state" jdbcDataType="VARCHAR"/>
+            <field name="phone" jdbcDataType="BIGINT"/>
+        </table>
+    </database>
+</dbSchema>

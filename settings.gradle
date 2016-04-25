@@ -1,2 +1,1 @@
-include ':app', ':greendaogenerator', ':ormlitegenerator'
-include ':Libraries:DBFlow:library', ':Libraries:DBFlow:flowcore',':Libraries:DBFlow:compiler'
+include ':app'

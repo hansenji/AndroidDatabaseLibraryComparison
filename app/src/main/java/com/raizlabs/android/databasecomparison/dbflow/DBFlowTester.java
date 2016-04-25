@@ -36,13 +36,12 @@ public class DBFlowTester {
                 Saver.saveAll(finalAddressBooks);
             }
         });
-        EventBus.getDefault().post(new LogTestDataEvent(startTime, FRAMEWORK_NAME, MainActivity.SAVE_TIME));
+        EventBus.getDefault().post(new LogTestDataEvent(System.currentTimeMillis() - startTime, FRAMEWORK_NAME, MainActivity.SAVE_TIME));
 
         startTime = System.currentTimeMillis();
         addressBooks = new Select().from(AddressBook.class).queryList();
         Loader.loadAllInnerData(addressBooks);
-        EventBus.getDefault().post(new LogTestDataEvent(startTime, FRAMEWORK_NAME, MainActivity.LOAD_TIME));
-
+        EventBus.getDefault().post(new LogTestDataEvent(System.currentTimeMillis() - startTime, FRAMEWORK_NAME, MainActivity.LOAD_TIME));
 
         com.raizlabs.android.dbflow.sql.language.Delete.tables(AddressItem.class,
                                                                Contact.class, AddressBook.class);
@@ -60,11 +59,11 @@ public class DBFlowTester {
                 Saver.saveAll(finalDbFlowModels);
             }
         });
-        EventBus.getDefault().post(new LogTestDataEvent(startTime, FRAMEWORK_NAME, MainActivity.SAVE_TIME));
+        EventBus.getDefault().post(new LogTestDataEvent(System.currentTimeMillis() - startTime, FRAMEWORK_NAME, MainActivity.SAVE_TIME));
 
         startTime = System.currentTimeMillis();
         dbFlowModels = new Select().from(SimpleAddressItem.class).queryList();
-        EventBus.getDefault().post(new LogTestDataEvent(startTime, FRAMEWORK_NAME, MainActivity.LOAD_TIME));
+        EventBus.getDefault().post(new LogTestDataEvent(System.currentTimeMillis() - startTime, FRAMEWORK_NAME, MainActivity.LOAD_TIME));
 
         com.raizlabs.android.dbflow.sql.language.Delete.table(SimpleAddressItem.class);
     }

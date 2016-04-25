@@ -1,17 +1,17 @@
 package com.raizlabs.android.databasecomparison.dbflow;
 
-import com.raizlabs.android.databasecomparison.interfaces.IAddressItem;
 import com.raizlabs.android.databasecomparison.MainActivity;
+import com.raizlabs.android.databasecomparison.interfaces.IAddressItem;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
-import com.raizlabs.android.dbflow.structure.cache.BaseCacheableModel;
+import com.raizlabs.android.dbflow.structure.BaseModel;
 
 /**
  * Description:
  */
 @Table(databaseName = DBFlowDatabase.NAME)
-public class SimpleAddressItem extends BaseCacheableModel implements IAddressItem<AddressBook> {
+public class SimpleAddressItem extends BaseModel implements IAddressItem<AddressBook> {
 
     @PrimaryKey(autoincrement = true)
     @Column
@@ -67,7 +67,7 @@ public class SimpleAddressItem extends BaseCacheableModel implements IAddressIte
         super.insert();
     }
 
-    @Override
+//    @Override
     public int getCacheSize() {
         return MainActivity.LOOP_COUNT;
     }

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -16,6 +15,7 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.raizlabs.android.databasecomparison.activeandroid.AATester;
 import com.raizlabs.android.databasecomparison.dbflow.DBFlowTester;
+import com.raizlabs.android.databasecomparison.dbtools.DBToolsTester;
 import com.raizlabs.android.databasecomparison.events.LogTestDataEvent;
 import com.raizlabs.android.databasecomparison.events.TrialCompletedEvent;
 import com.raizlabs.android.databasecomparison.greendao.GreenDaoTester;
@@ -122,11 +122,11 @@ public class MainActivity extends Activity {
      * @param name string to log for event
      */
     public void logTime(long startTime, String framework, String name) {
-        Log.e(MainActivity.class.getSimpleName(), name + " took: " + (System.currentTimeMillis() - startTime));
-        long elapsedMsec = (startTime == -1) ? 0 : System.currentTimeMillis() - startTime;
+//        Log.e(MainActivity.class.getSimpleName(), name + " took: " + (System.currentTimeMillis() - startTime));
+//        long elapsedMsec = (startTime == -1) ? 0 : System.currentTimeMillis() - startTime;
         resultsStringBuilder.append(framework).append(' ').append(name)
                 .append(" took: ")
-                .append(elapsedMsec)
+                .append(startTime)
                 .append(" msec\n");
         runOnUiThread(new Runnable() {
             @Override
@@ -135,7 +135,7 @@ public class MainActivity extends Activity {
             }
         });
         // update chart data
-        addChartData(framework, name, elapsedMsec);
+        addChartData(framework, name, startTime);
     }
 
     private void setBusyUI(boolean enabled, String testName) {
@@ -185,12 +185,13 @@ public class MainActivity extends Activity {
         chartEntrySets.clear();
         // the order you add these in is the order they're displayed in
         chartEntrySets.put(DBFlowTester.FRAMEWORK_NAME, new ArrayList<BarEntry>());
-        chartEntrySets.put(GreenDaoTester.FRAMEWORK_NAME, new ArrayList<BarEntry>());
-        chartEntrySets.put(OrmLiteTester.FRAMEWORK_NAME, new ArrayList<BarEntry>());
-        chartEntrySets.put(SugarTester.FRAMEWORK_NAME, new ArrayList<BarEntry>());
-        chartEntrySets.put(AATester.FRAMEWORK_NAME, new ArrayList<BarEntry>());
-        chartEntrySets.put(OllieTester.FRAMEWORK_NAME, new ArrayList<BarEntry>());
-        chartEntrySets.put(SprinklesTester.FRAMEWORK_NAME, new ArrayList<BarEntry>());
+//        chartEntrySets.put(GreenDaoTester.FRAMEWORK_NAME, new ArrayList<BarEntry>());
+//        chartEntrySets.put(OrmLiteTester.FRAMEWORK_NAME, new ArrayList<BarEntry>());
+//        chartEntrySets.put(SugarTester.FRAMEWORK_NAME, new ArrayList<BarEntry>());
+//        chartEntrySets.put(AATester.FRAMEWORK_NAME, new ArrayList<BarEntry>());
+//        chartEntrySets.put(OllieTester.FRAMEWORK_NAME, new ArrayList<BarEntry>());
+//        chartEntrySets.put(SprinklesTester.FRAMEWORK_NAME, new ArrayList<BarEntry>());
+        chartEntrySets.put(DBToolsTester.FRAMEWORK_NAME, new ArrayList<BarEntry>());
     }
     private int getFrameworkColor(String framework) {
         // using the 300 line colors from http://www.google.com/design/spec/style/color.html#color-color-palette
@@ -209,6 +210,8 @@ public class MainActivity extends Activity {
                 return Color.rgb(0x79, 0x86, 0xCB); // indigo
             case SugarTester.FRAMEWORK_NAME:
                 return Color.rgb(0x64, 0xB5, 0XF6); // blue
+            case DBToolsTester.FRAMEWORK_NAME:
+                return Color.rgb(0x00, 0x80, 0X00); // green
             default:
                 return Color.WHITE;
         }
@@ -235,14 +238,25 @@ public class MainActivity extends Activity {
             public void run() {
                 runningTests = true;
                 Context applicationContext = MainActivity.this.getApplicationContext();
-                OrmLiteTester.testAddressItems(applicationContext);
-                GreenDaoTester.testAddressItems(applicationContext);
+                DBToolsTester.testSimple(applicationContext);
+//                System.gc();
+//                OrmLiteTester.testAddressItems(applicationContext);
+//                System.gc();
+//                GreenDaoTester.testAddressItems(applicationContext);
+                System.gc();
                 DBFlowTester.testAddressItems(applicationContext);
-                SprinklesTester.testAddressItems(applicationContext);
-                AATester.testAddressItems(applicationContext);
-                OllieTester.testAddressItems(applicationContext);
-                SugarTester.testAddressItems(applicationContext);
+//                System.gc();
+//                SprinklesTester.testAddressItems(applicationContext);
+//                System.gc();
+//                AATester.testAddressItems(applicationContext);
+//                System.gc();
+//                OllieTester.testAddressItems(applicationContext);
+//                System.gc();
+//                SugarTester.testAddressItems(applicationContext);
+//                System.gc();
+
                 EventBus.getDefault().post(new TrialCompletedEvent(getResources().getString(R.string.simple)));
+                System.gc();
             }
         });
         runTestThread.start();
@@ -260,13 +274,13 @@ public class MainActivity extends Activity {
             public void run() {
                 runningTests = true;
                 Context applicationContext = MainActivity.this.getApplicationContext();
-                OrmLiteTester.testAddressBooks(applicationContext);
-                GreenDaoTester.testAddressBooks(applicationContext);
+//                OrmLiteTester.testAddressBooks(applicationContext);
+//                GreenDaoTester.testAddressBooks(applicationContext);
                 DBFlowTester.testAddressBooks(applicationContext);
-                SprinklesTester.testAddressBooks(applicationContext);
-                AATester.testAddressBooks(applicationContext);
-                OllieTester.testAddressBooks(applicationContext);
-                SugarTester.testAddressBooks(applicationContext);
+//                SprinklesTester.testAddressBooks(applicationContext);
+//                AATester.testAddressBooks(applicationContext);
+//                OllieTester.testAddressBooks(applicationContext);
+//                SugarTester.testAddressBooks(applicationContext);
                 EventBus.getDefault().post(new TrialCompletedEvent(getResources().getString(R.string.complex)));
             }
         }).start();
